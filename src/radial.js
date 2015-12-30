@@ -1,85 +1,102 @@
-import {map, keys} from "d3-array";
-
+/**
+* Simple layout for positioning data along a radial ellipse.
+*
+* Expects an array of objects that need positioning.
+* Will add x and y values so that the objects are equally spaced around a
+* circle or ellipse (depending on width and height).
+*/
 export default function() {
-  var values = map();
-  var increment = 20;
-  var radius = 200;
+  var increment = 0;
   var width = 500;
-  var height = 300;
-  var tapper = -50;
-  var center = {"x":0, "y":0};
+  var height = 500;
+  var taper = 0;
+  var center = [0,0];
   var start = -90;
 
   var current = start;
 
-  var radialLocation = function(center, angle, width, height, tapper) {
-    return {"x":(center.x + (width * Math.cos(angle * Math.PI / 180) - tapper)),
-            "y": (center.y + (height * Math.sin(angle * Math.PI / 180) + tapper))};
+  var radialLocation = function(center, angle, width, height, taper) {
+    return {"x":(center[0] + (width * Math.cos(angle * Math.PI / 180) - taper)),
+            "y": (center[1] + (height * Math.sin(angle * Math.PI / 180) + taper))};
   };
 
   var place = function(obj) {
-    var value = radialLocation(center, current, width, height, tapper);
-    // now it just adds attributes to the object. DANGEROUS
+    var value = radialLocation(center, current, width, height, taper);
+
+    // now it just adds attributes to the object.
     obj.x = value.x;
     obj.y = value.y;
     obj.angle = current;
-    // values.set(obj,value);
+
     current += increment;
-    tapper += increment;
-    tapper = Math.min(tapper, 0);
+    taper += increment;
+    taper = Math.min(taper, 0);
     return value;
   };
 
-  var placement = function(keys) {
-    values = map();
-    increment = 360 / keys.length;
+  var placement = function(objs) {
+    increment = 360 / objs.length;
 
-    keys.forEach(function(k) {
-      place(k);
+    objs.forEach(function(obj) {
+      place(obj);
     });
+
+    return objs;
   };
 
-  placement.keys = function(_) {
-    if (!arguments.length) {
-      return keys(values);
-    }
-    // setKeys(_);
-    return placement;
-  };
-
-   placement.center = function(_) {
+  placement.center = function(_) {
     if (!arguments.length) {
       return center;
     }
     center = _;
     return placement;
-   };
+  };
 
-   placement.width = function(_) {
-     if (!arguments.length) {
-       return width;
-     }
+  placement.size = function(_) {
+    if (!arguments.length) {
+      return [width, height];
+    }
 
-     width = _;
-     return placement;
-   };
+    width = _[0];
+    height = _[1];
 
-   placement.height = function(_) {
-     if (!arguments.length) {
-       return height;
-     }
+    return placement;
+  };
 
-     height = _;
-     return placement;
-   };
+  placement.width = function(_) {
+    if (!arguments.length) {
+      return width;
+    }
 
-   placement.start = function(_) {
-     if (!arguments.length) {
-       return start;
-     }
-     start = _;
-     return placement;
-   };
+    width = _;
+    return placement;
+  };
+
+  placement.height = function(_) {
+    if (!arguments.length) {
+      return height;
+    }
+
+    height = _;
+    return placement;
+  };
+
+  placement.start = function(_) {
+    if (!arguments.length) {
+      return start;
+    }
+    start = _;
+    return placement;
+  };
+
+  placement.taper = function(_) {
+    if (!arguments.length) {
+      return taper;
+    }
+
+    taper = _;
+    return placement;
+  };
 
   return placement;
 }
