@@ -1,0 +1,27 @@
+{
+  "name": "d3-radial",
+  "version": "0.0.1",
+  "description": "simple radial layout for D3",
+  "keywords": [
+    "d3"
+  ],
+  "license": "BSD-3-Clause",
+  "main": "build/d3-radial.js",
+  "jsnext:main": "index",
+  "homepage": "https://github.com/vlandham/d3-radial",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vlandham/d3-radial.git"
+  },
+  "scripts": {
+    "pretest": "mkdir -p build && node -e 'process.stdout.write(\"var version = \\\"\" + require(\"./package.json\").version + \"\\\"; export * from \\\"../index\\\"; export {version};\");' > build/bundle.js && rollup -f umd -u d3-radial -n d3_radial -o build/d3-radial.js -- build/bundle.js",
+    "test": "faucet `find test -name '*-test.js'`",
+    "prepublish": "npm run test && uglifyjs build/d3-radial.js -c -m -o build/d3-radial.min.js && rm -f build/d3-radial.zip && zip -j build/d3-radial.zip -- LICENSE README.md build/d3-radial.js build/d3-radial.min.js"
+  },
+  "devDependencies": {
+    "faucet": "0.0",
+    "rollup": "0.20.5",
+    "tape": "4",
+    "uglify-js": "2"
+  }
+}
