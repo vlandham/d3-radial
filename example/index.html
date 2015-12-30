@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <script src="../build/d3-radial.js"></script>
+</head>
+<body>
+  <script>
+
+  var width = 500
+  var height = 500
+  var data = [{"name": 1}, {"name": 2}, {"name": 3}, {"name": 4}];
+  var radial = d3_radial.radial()
+      .center([width / 2, height / 2])
+      .size([width / 3, height / 3]);
+
+  radial(data);
+
+  var svg = d3.select('body').append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+  svg.selectAll('circle')
+    .data(data).enter()
+    .append("circle")
+    .attr("cx", function(d) { return d.x; })
+    .attr("cy", function(d) { return d.y; })
+    .attr("r", 20)
+    .attr("fill", "#668866");
+
+  // -----
+
+
+  var size = Math.random() * 100;
+  for(var i = 0; i < size; i++)  {
+    data.push({"name": i});
+  }
+
+  svg = d3.select('body').append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+  svg.selectAll('circle')
+    .data(radial(data)).enter()
+    .append("circle")
+    .attr("cx", function(d) { return d.x; })
+    .attr("cy", function(d) { return d.y; })
+    .attr("r", 5)
+    .attr("fill", "#664466");
+
+  </script>
+
+</body>
+</html>

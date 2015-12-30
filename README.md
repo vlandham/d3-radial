@@ -11,9 +11,9 @@ If you use NPM, `npm install d3-radial`. Otherwise, download the [latest release
 
 ### Radial
 
-<img src="https://raw.githubusercontent.com/vlandham/d3-radial/master/img/radial.png" width="400" alt="radial">
-
 Simple layout for positioning things along a circle or ellipse.
+
+<img src="https://raw.githubusercontent.com/vlandham/d3-radial/master/img/radial.png" width="400" alt="radial">
 
 ```js
 var radial = d3_radial.radial()
