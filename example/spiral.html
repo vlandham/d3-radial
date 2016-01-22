@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <script src="../build/d3-radial.js"></script>
+</head>
+<body>
+  <script>
+
+  var width = 800;
+  var height = 800;
+  var data = [];
+  var radial = d3_radial.spiral()
+      .center([width / 2, height / 2]);
+
+  var size = 200;
+  for(var i = 0; i < size; i++)  {
+    data.push({"name": i});
+  }
+
+  d3.select('body').append("h1")
+    .text("Vary Coil");
+
+  [10, 20, 40, 60].forEach(function(coil) {
+    radial.coil(coil);
+    svg = d3.select('body').append("svg")
+      .attr("width", width)
+      .attr("height", height);
+
+    svg.selectAll('circle')
+      .data(radial(data)).enter()
+      .append("circle")
+      .attr("cx", function(d) { return d.x; })
+      .attr("cy", function(d) { return d.y; })
+      .attr("r", 5)
+      .attr("fill", "#664466");
+
+  })
+
+  d3.select('body').append("h1")
+    .text("Vary Increment");
+
+  [10, 20, 40, 60].forEach(function(inc) {
+    radial.increment(inc);
+    svg = d3.select('body').append("svg")
+      .attr("width", width)
+      .attr("height", height);
+
+    svg.selectAll('circle')
+      .data(radial(data)).enter()
+      .append("circle")
+      .attr("cx", function(d) { return d.x; })
+      .attr("cy", function(d) { return d.y; })
+      .attr("r", 5)
+      .attr("fill", "#664466");
+
+  })
+
+
+  </script>
+
+</body>
+</html>

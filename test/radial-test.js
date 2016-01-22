@@ -22,7 +22,7 @@ tape("radial() creation", function(test) {
   test.end();
 });
 
-tape("radial() creation", function(test) {
+tape("radial() application", function(test) {
   var rad = radial.radial().start(0);
   var data = [{'name':'a'}, {'name':'b'}];
 
