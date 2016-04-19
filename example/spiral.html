@@ -10,7 +10,7 @@
   var width = 800;
   var height = 800;
   var data = [];
-  var radial = d3_radial.spiral()
+  var spiral = d3_radial.spiral()
       .center([width / 2, height / 2]);
 
   var size = 200;
@@ -22,13 +22,13 @@
     .text("Vary Coil");
 
   [10, 20, 40, 60].forEach(function(coil) {
-    radial.coil(coil);
+    spiral.coil(coil);
     svg = d3.select('body').append("svg")
       .attr("width", width)
       .attr("height", height);
 
     svg.selectAll('circle')
-      .data(radial(data)).enter()
+      .data(spiral(data)).enter()
       .append("circle")
       .attr("cx", function(d) { return d.x; })
       .attr("cy", function(d) { return d.y; })
@@ -41,13 +41,13 @@
     .text("Vary Increment");
 
   [10, 20, 40, 60].forEach(function(inc) {
-    radial.increment(inc);
+    spiral.increment(inc);
     svg = d3.select('body').append("svg")
       .attr("width", width)
       .attr("height", height);
 
     svg.selectAll('circle')
-      .data(radial(data)).enter()
+      .data(spiral(data)).enter()
       .append("circle")
       .attr("cx", function(d) { return d.x; })
       .attr("cy", function(d) { return d.y; })
